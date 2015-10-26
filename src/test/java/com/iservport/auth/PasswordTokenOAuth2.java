@@ -23,13 +23,13 @@ import com.iservport.config.TestConfig;
  * @author Eldevan Nery Junior
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={TestConfig.class})
-@Transactional
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes={TestConfig.class})
+//@Transactional
 public class PasswordTokenOAuth2 {
 
-	@Inject
-	private PasswordTokenOauthService passwordTokenOauthService;
+//	@Inject
+	private PasswordTokenOauthService passwordTokenOauthService = new PasswordTokenOauthService();
 	
 	@Test
 	public void getToken(){

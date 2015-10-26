@@ -2,9 +2,6 @@ package com.iservport.auth.service;
 
 import java.util.Arrays;
 
-import javax.inject.Inject;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 public abstract class RestTemplateUtils {
 	
-	@Value("${helianto.trusted.client:helianto-trusted-client-with-secret}")
-	protected String heliantoTrustedClient;
+//	@Value("${helianto.trusted.client:helianto-trusted-client-with-secret}")
+	protected String heliantoTrustedClient = "helianto-trusted-client-with-secret";
 	
-	@Value("${helianto.trusted.client.secret:helianto}")
-	protected String heliantoTrustedClientSecret;
+//	@Value("${helianto.trusted.client.secret:helianto}")
+	protected String heliantoTrustedClientSecret = "helianto";
 	
 	protected static final String GRANT_TYPE = "password";
 	
@@ -41,8 +38,7 @@ public abstract class RestTemplateUtils {
 	
 	protected static final String TOKEN_ENDPOINT = AUTH_ENDPOINT+"/oauth/token";	
 	
-	@Inject
-	protected RestTemplate restTemplate;
+	protected RestTemplate restTemplate = new RestTemplate() ;
 	
 	/**
 	 * 

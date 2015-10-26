@@ -2,6 +2,7 @@ package com.iservport.auth.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 /**
  * Retorno dos dados do token de autorização OAuth2.
  * 
