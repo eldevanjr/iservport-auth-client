@@ -1,4 +1,4 @@
-package com.iservport.auth.service;
+package com.jkawflex.auth.service;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -42,10 +42,13 @@ public class PasswordTokenOauthService extends RestTemplateUtils{
 	
 	
 	@SuppressWarnings("unchecked")
-	public ResponseEntity<String> getResource(HttpMethod method, String resource, String... params){
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(APP_ENDPOINT+resource);
+	public ResponseEntity<String> getResource(HttpMethod method, String resource, MultiValueMap<String, String> params, String acessToken , String... params2){
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(APP_ENDPOINT+resource);		
+		if(params!=null && params.size()>0){
+			builder.queryParams(params);
+		}
 		ResponseEntity<String> response = (ResponseEntity<String>)
-				getResponseEntity(builder, method, getHttpEntityToken(MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON), String.class);
+				getResponseEntity(builder, method, getHttpEntityWithParams(params, MediaType.APPLICATION_JSON, acessToken, MediaType.APPLICATION_JSON), String.class);
 		return response;
 	}
 	

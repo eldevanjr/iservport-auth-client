@@ -1,21 +1,22 @@
 package com.iservport.auth;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import javax.inject.Inject;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JOptionPane;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.http.HttpMethod;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.iservport.auth.service.OAuthTokenInMemory;
-import com.iservport.auth.service.PasswordTokenOauthService;
-import com.iservport.auth.service.TokenReturn;
-import com.iservport.config.TestConfig;
+import com.infokaw.udf.infokaw;
+import com.jkawflex.auth.service.PasswordTokenOauthService;
+import com.jkawflex.auth.service.TokenReturn;
 
 /**
  * Classe para testar se o token de autorização foi tomado corretamente.
@@ -27,18 +28,42 @@ import com.iservport.config.TestConfig;
 //@ContextConfiguration(classes={TestConfig.class})
 //@Transactional
 public class PasswordTokenOAuth2 {
+	
+	static {
+	    //for localhost testing only
+	    javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
+	    new javax.net.ssl.HostnameVerifier(){
+
+	        public boolean verify(String hostname,
+	                javax.net.ssl.SSLSession sslSession) {
+	            if (hostname.equals("localhost")) {
+	                return true;
+	            }
+	            return false;
+	        }
+	    });
+	}
+	
 
 //	@Inject
 	private PasswordTokenOauthService passwordTokenOauthService = new PasswordTokenOauthService();
 	
 	@Test
 	public void getToken(){
+		try {
+			System.out.println(infokaw.Criptografar("h3l1@nt0"));
+		} catch (InvalidKeyException | BadPaddingException | NoSuchPaddingException | IllegalBlockSizeException
+				| NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String password = (String)JOptionPane
-				.showInputDialog(null," Type password to admin@rokoit.com.br","Password",JOptionPane.PLAIN_MESSAGE);
-		TokenReturn tokenReturn = passwordTokenOauthService.getToken("admin@rokoit.com.br", password , false);
+				.showInputDialog(null," Type password to alaor@infokaw.com.br","Password",JOptionPane.PLAIN_MESSAGE);
+		TokenReturn tokenReturn = passwordTokenOauthService.getToken("alaor@infokaw.com.br", password , false);
 		assertTrue(tokenReturn.getAccessToken()!=null && !tokenReturn.getAccessToken().isEmpty() );
-		assertEquals(OAuthTokenInMemory.getAuthToken(), tokenReturn);
-		System.err.println(passwordTokenOauthService.getResource(HttpMethod.GET, "/rest/api/workout/qualifier", null).getBody());
+		System.out.println(tokenReturn);
+//		assertEquals(OAuthTokenInMemory.getAuthToken(), tokenReturn);
+		System.err.println(passwordTokenOauthService.getResource(HttpMethod.GET, "/adm/sync/time", null, tokenReturn.getAccessToken()).getBody());
 	}
 		
 }

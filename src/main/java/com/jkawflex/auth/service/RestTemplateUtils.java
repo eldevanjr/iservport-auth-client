@@ -1,4 +1,4 @@
-package com.iservport.auth.service;
+package com.jkawflex.auth.service;
 
 import java.util.Arrays;
 
@@ -30,9 +30,9 @@ public abstract class RestTemplateUtils {
 	
 	protected static final String RESPONSE_TYPE = "token";	
 	
-	protected static final String ENDPOINT = "http://54.207.10.184";
+	protected static final String ENDPOINT = "http://localhost";
 	
-	protected static final String AUTH_ENDPOINT = ENDPOINT+":9090";
+	protected static final String AUTH_ENDPOINT = ENDPOINT+":8080";
 	
 	protected static final String APP_ENDPOINT = ENDPOINT+":8080";
 	
@@ -56,16 +56,33 @@ public abstract class RestTemplateUtils {
 	
 	/**
 	 * 
+	 * HttpEntity para chamadas com param
+	 * 
+	 * @param map
+	 */
+	protected HttpEntity<?> getHttpEntityWithParams(MultiValueMap<String, String> map, MediaType mediaType, String acessToken, MediaType... accept){
+		HttpHeaders headers = new HttpHeaders();
+		if(acessToken==null || acessToken.isEmpty()){
+			throw new IllegalArgumentException("OAuth token must be supplied");
+		}
+		headers.add("Authorization", "Bearer "+acessToken);
+		headers.setContentType(mediaType);
+		headers.setAccept(Arrays.asList(accept));
+		return new HttpEntity<>(map, headers);
+	}
+	
+	/**
+	 * 
 	 * HttpEntity com token de autorização genérico.
 	 * 
 	 * @param map
 	 */
-	protected HttpEntity<?> getHttpEntityToken(MediaType mediaType, MediaType... accept) {
+	protected HttpEntity<?> getHttpEntityToken(MediaType mediaType, String acessToken, MediaType... accept) {
 		HttpHeaders headers = new HttpHeaders();
-		if(!OAuthTokenInMemory.hasAuthToken()){
+		if(acessToken==null || acessToken.isEmpty()){
 			throw new IllegalArgumentException("OAuth token must be supplied");
 		}
-		headers.add("Authorization", "Bearer "+OAuthTokenInMemory.getAuthToken().getAccessToken());
+		headers.add("Authorization", "Bearer "+acessToken);
 		headers.setContentType(mediaType);
 		headers.setAccept(Arrays.asList(accept));
 		return new HttpEntity<>(headers);

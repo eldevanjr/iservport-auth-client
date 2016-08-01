@@ -1,4 +1,4 @@
-package com.iservport.auth.service;
+package com.jkawflex.auth.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
