@@ -15,8 +15,8 @@ import org.junit.Test;
 import org.springframework.http.HttpMethod;
 
 import com.infokaw.udf.infokaw;
-import com.jkawflex.auth.service.PasswordTokenOauthService;
-import com.jkawflex.auth.service.TokenReturn;
+import com.iservport.auth.service.PasswordTokenOauthService;
+import com.iservport.auth.service.TokenReturn;
 
 /**
  * Classe para testar se o token de autorização foi tomado corretamente.
